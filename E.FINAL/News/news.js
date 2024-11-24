@@ -1,7 +1,7 @@
 let listOfProducts = []
 
 async function fetchAndCreateAllProducts() {
-    await fetch('https://raw.githubusercontent.com/lperezco/EntregaMain/main/ENTREGA%20FINAL/data.js') 
+    await fetch("https://raw.githubusercontent.com/lperezco/FINAL/refs/heads/main/E.FINAL/data.json") 
         .then(response => { 
             if (!response.ok) {
                 throw new Error('Error en la red');
@@ -10,7 +10,7 @@ async function fetchAndCreateAllProducts() {
         .then(data => {
 
     for(let i = 0; i < data.length; i++)  {
-        if (data[i].trending) {
+        if (data[i].new) {
             let object = data [i]
             let mugId = object.mugId
             let name = object.name
@@ -78,11 +78,27 @@ function redirectToLogin() {
 function redirectToAccount() {
     window.location.href = "../Myacountpage/account.html";
 }
+const loginSuccess = JSON.parse(localStorage.getItem('login_success'));
+
+function redirectToFavorite(refFromUrl) {
+    if (loginSuccess ) {
+    window.location.href = "../Favoritepage/favorite.html?" ;
+    }
+    else { 
+        window.location.href = "../Login/login.html";
+    }
+}
+function redirectToLogin() {
+    if (loginSuccess ) {
+        window.location.href = "../Myaccountpage/account.html";
+        }
+        else { 
+            window.location.href = "../Login/login.html";
+        }
+}
 if (loginSuccess) {
     const user = JSON.parse(localStorage.getItem('login_success')) || [];
     let userFavorites = JSON.parse(localStorage.getItem(`favorites_${user.email}`)) || [];
-    let count = 0
-   
     const numberCount = document.getElementById("carroContador")
     numberCount.innerHTML =  
     `<div class="circulo">

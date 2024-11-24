@@ -1,4 +1,6 @@
 const loginForm = document.querySelector('#loginForm');
+localStorage.setItem('login_success', JSON.stringify(false));
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;

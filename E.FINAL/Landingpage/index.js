@@ -31,13 +31,19 @@ function fillScreenWithProducts ()  {
  createAllProducts()
  fillScreenWithProducts()
 
-
+ 
  function redirectToIndex() {
-    window.location.href = "index.html";
-}
-
+     window.location.href = "index.html";
+    }
+    
+    const loginSuccess = JSON.parse(localStorage.getItem('login_success'));
  function redirectToMain() {
-    window.location.href = "../Mainpage/main.html";
+    if (loginSuccess ) {
+        window.location.href = "../Mainpage/main.html";
+        }
+        else { 
+            window.location.href = "./Login/login.html";
+        }
 }
 function redirectToModerns() {
     window.location.href = "./Moderns/moderns.html";
@@ -64,8 +70,14 @@ function redirectToLogin() {
     window.location.href = "./Login/login.html";
 }
 function redirectToMain() {
-    window.location.href = "./Mainpage/main.html";
+    if (loginSuccess ) {
+        window.location.href = "./Mainpage/main.html";
+        }
+        else { 
+            window.location.href = "./Login/login.html";
+        }
 }
+
 
 
 document.addEventListener("DOMContentLoaded", function() {

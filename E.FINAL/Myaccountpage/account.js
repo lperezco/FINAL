@@ -1,14 +1,25 @@
 let listOfProducts = []
 
 function createAllProducts () {
-    let object7 = data[7];
-    let object11 = data[11];
+    const user = JSON.parse(localStorage.getItem('login_success')) || [];
 
-    let product7 = new Product(object7.mugId, object7.name, object7.altText, object7.price, object7.imgUrl, object7.description)
+    const userbuy = JSON.parse(localStorage.getItem(`buy_${user.email}`)) || [];
 
-    let product11 = new Product(object11.mugId, object11.name, object11.altText, object11.price, object11.imgUrl, object11.description)
+    if (user) {
+        
+        for(let i = 0; i < userbuy.length; i++)  {
+            let object = data [i]
+            let mugId = object.mugId
+            let name = object.name
+            let altText = object.altText
+            let price = object.price
+            let description = object.description
+            let imgUrl = object.imgUrl
+            let product = new Product(mugId, name, altText, price, imgUrl, description)
+            listOfProducts.push(product)
+        }
+    }
 
-    listOfProducts.push(product7, product11);
 }
 
 function fillScreenWithProducts ()  {
@@ -21,6 +32,17 @@ function fillScreenWithProducts ()  {
     }
 }
 
+const user = JSON.parse(localStorage.getItem('login_success'));
+if (user != null) {
+    const nameHTML = document.getElementById("nombre")
+    const emailHTML = document.getElementById("email")
+
+    const nameUser = user.firstName
+    const emailUser = user.email
+    nameHTML.innerHTML = nameUser
+    emailHTML.innerHTML = emailUser
+
+}
 
  createAllProducts()
  fillScreenWithProducts()

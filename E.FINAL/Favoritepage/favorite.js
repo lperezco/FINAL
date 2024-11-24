@@ -1,20 +1,23 @@
 let listOfProducts = []
 
+const user = JSON.parse(localStorage.getItem('login_success'));
 function createAllProducts () {
-    let object2 = data[2];
-    let object7 = data[7];
-    let object11 = data[11];
-    let object12 = data[12];
 
-    let product2 = new Product(object2.mugId, object2.name, object2.altText, object2.price, object2.imgUrl, object2.description)
-   
-    let product7 = new Product(object7.mugId, object7.name, object7.altText, object7.price, object7.imgUrl, object7.description)
-
-    let product11 = new Product(object11.mugId, object11.name, object11.altText, object11.price, object11.imgUrl, object11.description)
-
-    let product12 = new Product(object12.mugId, object12.name, object12.altText, object12.price, object12.imgUrl, object12.description)
-
-    listOfProducts.push(product2, product7, product11, product12);
+    if (user) {
+        const favProducts = JSON.parse(localStorage.getItem(`favorites_${user.email}`)) || [];
+        
+        for(let i = 0; i < favProducts.length; i++)  {
+            let object = data [i]
+            let mugId = object.mugId
+            let name = object.name
+            let altText = object.altText
+            let price = object.price
+            let description = object.description
+            let imgUrl = object.imgUrl
+            let product = new Product(mugId, name, altText, price, imgUrl, description)
+            listOfProducts.push(product)
+        }
+    }
 }
 
 
@@ -24,7 +27,6 @@ function fillScreenWithProducts ()  {
     for(let i = 0; i < listOfProducts.length; i++)  {
         const product = listOfProducts[i].createHtml();
         container.innerHTML += product;
-        console.log(product);
     }
 }
 
@@ -63,6 +65,30 @@ function redirectToTrendings() {
 function redirectToRecommendatios() {
     window.location.href = "../recommendations/recommend.html";
 }
-function redirectToFavorite() {
-    window.location.href = "./favorite.html";
+
+const loginSuccess = JSON.parse(localStorage.getItem('login_success'));
+
+function redirectToFavorite(refFromUrl) {
+    if (loginSuccess) {
+    window.location.href = "../Favoritepage/favorite.html";
+    }
+    else { 
+        window.location.href = "../Login/login.html";
+    }
+}
+function redirectToLogin() {
+    if (loginSuccess) {
+        window.location.href = "../Myaccountpage/account.html";
+        }
+        else { 
+            window.location.href = "../Login/login.html";
+        }
+}
+if (loginSuccess) {
+    let userFavorites = JSON.parse(localStorage.getItem(`favorites_${user.email}`)) || [];
+    const numberCount = document.getElementById("carroContador")
+    numberCount.innerHTML =  
+    `<div class="circulo">
+        <p id="numero">${userFavorites.length}</p>
+    </div> `
 }

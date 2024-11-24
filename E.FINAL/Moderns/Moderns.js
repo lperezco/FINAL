@@ -1,6 +1,6 @@
 let listOfProducts = []
 async function fetchAndCreateAllProducts() {
-    await fetch('https://raw.githubusercontent.com/lperezco/EntregaMain/main/ENTREGA%20FINAL/data.js') 
+    await fetch('https://raw.githubusercontent.com/lperezco/FINAL/refs/heads/main/E.FINAL/data.json') 
         .then(response => { 
             if (!response.ok) {
                 throw new Error('Error en la red');
@@ -8,7 +8,6 @@ async function fetchAndCreateAllProducts() {
               return response.json()})
         .then(data => {
 
-function createAllProducts ()  {
     for(let i = 0; i < data.length; i++)  {
         if (data[i].category == "modern") {
             let object = data [i]
@@ -23,10 +22,11 @@ function createAllProducts ()  {
         }
         fillScreenWithProducts(); 
     }
-}
+
 })
 .catch(error => console.error('Error fetching data:', error));
     }
+
 
 function fillScreenWithProducts ()  {
     const container = document.getElementById("seccion-productos")
@@ -69,17 +69,29 @@ function redirectToTrendings() {
 function redirectToRecommendatios() {
     window.location.href = "../recommendations/recommend.html";
 }
-function redirectToFavorite() {
-    window.location.href = "../Favoritepage/favorite.html";
+
+
+const loginSuccess = JSON.parse(localStorage.getItem('login_success'));
+
+function redirectToFavorite(refFromUrl) {
+    if (loginSuccess ) {
+    window.location.href = "../Favoritepage/favorite.html?id="+refFromUrl ;
+    }
+    else { 
+        window.location.href = "../Login/login.html";
+    }
 }
 function redirectToLogin() {
-    window.location.href = "../Login/login.html";
+    if (loginSuccess) {
+        window.location.href = "../Myaccountpage/account.html";
+        }
+        else { 
+            window.location.href = "../Login/login.html";
+        }
 }
 if (loginSuccess) {
     const user = JSON.parse(localStorage.getItem('login_success')) || [];
     let userFavorites = JSON.parse(localStorage.getItem(`favorites_${user.email}`)) || [];
-    let count = 0
-   
     const numberCount = document.getElementById("carroContador")
     numberCount.innerHTML =  
     `<div class="circulo">
